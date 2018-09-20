@@ -5,12 +5,10 @@ import android.app.Dialog
 import android.media.MediaPlayer
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.NumberPicker
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.arjavax.tapcounter.utils.Boast
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,6 +21,10 @@ class MainActivity : AppCompatActivity() {
         var counterEnd: Int? = null
     }
 
+    private var tone: Int = 0
+    private var mediaPlayer: MediaPlayer? = null
+
+
     @SuppressLint("SetTextI18n", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +35,18 @@ class MainActivity : AppCompatActivity() {
             if (counter == counterEnd?.minus(1)) {
                 textViewCounter.text = "Finished\n $counterEnd Tap"
                 Boast.showText(this@MainActivity, "Finish")
-                val mediaPlayer = MediaPlayer.create(this@MainActivity, R.raw.flabbyburd)
-                mediaPlayer.start()
+                mediaPlayer = when (tone) {
+                    0 -> MediaPlayer.create(this@MainActivity, R.raw.flabbyburd)
+                    1 -> MediaPlayer.create(this@MainActivity, R.raw.firelightercapclosing01)
+                    2 -> MediaPlayer.create(this@MainActivity, R.raw.drinkglassbreaking01)
+                    3 -> MediaPlayer.create(this@MainActivity, R.raw.churchbellchimingtwice01)
+                    4 -> MediaPlayer.create(this@MainActivity, R.raw.boxingbellring01)
+                    5 -> MediaPlayer.create(this@MainActivity, R.raw.boxingbellring02)
+                    6 -> MediaPlayer.create(this@MainActivity, R.raw.bicycleminibellring01)
+                    7 -> MediaPlayer.create(this@MainActivity, R.raw.bicyclebellringclassic02)
+                    else -> MediaPlayer.create(this@MainActivity, R.raw.flabbyburd)
+                }
+                mediaPlayer?.start()
             }else {
                 counter += 1
                 textViewCounter.text = "$counter"
@@ -92,8 +104,34 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun showSetTone() {
+    private var toneName: String? = null
 
+    private fun showSetTone() {
+        val builder : AlertDialog.Builder = AlertDialog.Builder(this@MainActivity)
+        builder.setTitle("Pilih Nada Finish")
+        builder.setCancelable(false)
+
+        val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(this@MainActivity, android.R.layout.simple_selectable_list_item)
+        arrayAdapter.add("Flappy Burd")
+        arrayAdapter.add("Fire Lighter Cap Closing 01")
+        arrayAdapter.add("Drink Glass Breaking 01")
+        arrayAdapter.add("Church Bell Chiming Twice 01")
+        arrayAdapter.add("Boxing Bell Ring 01")
+        arrayAdapter.add("Boxing Bell Ring 02")
+        arrayAdapter.add("Bicycle Mini Bell Ring 01")
+        arrayAdapter.add("Bicycle Bell Ring Classic 02")
+
+        builder.setNegativeButton("Cancel") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+
+        builder.setAdapter(arrayAdapter) { _, i ->
+            toneName = arrayAdapter.getItem(i)
+            tone = arrayAdapter.getItemId(i).toInt()
+            Toast.makeText(this@MainActivity, toneName, Toast.LENGTH_SHORT).show()
+            arrayAdapter.setNotifyOnChange(true)
+        }
+        builder.show()
     }
 
     private fun showSetTheme() {
