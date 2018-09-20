@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Tap Counter</string>
+    <string name="counter">Counter</string>
+    <string name="atur_batas_counter">Atur batas counter</string>
+    <string name="atur_nada_finish">Atur nada finish</string>
+    <string name="atur_tema">Atur tema</string>
+    <string name="about">About</string>
+    <string name="atur_counter_finish">Atur Counter Finish</string>
+    <string name="reset_counter">Reset Counter</string>
+    <string name="batas_counter_terakhir">Batas Counter Terakhir :</string>
+</resources>
