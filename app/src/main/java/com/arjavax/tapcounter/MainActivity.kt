@@ -10,24 +10,31 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.*
 import com.arjavax.tapcounter.utils.Boast
+import com.arjavax.tapcounter.utils.ThemeApplication
+import com.arjavax.tapcounter.utils.ThemeSwitcher
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private val boast: Boast.Companion = Boast
     private var counter: Int = 0
+    private var tone: Int = 0
+    private var toneName: String? = null
+    private var mediaPlayer: MediaPlayer? = null
+    private var themeName: String? = null
 
     companion object {
         var counterEnd: Int? = null
     }
 
-    private var tone: Int = 0
-    private var mediaPlayer: MediaPlayer? = null
+    private var themeSelected: Int = 0
 
-
-    @SuppressLint("SetTextI18n", "ResourceType")
+    @SuppressLint("SetTextI18n", "ResourceType", "PrivateResource")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        ThemeSwitcher.onActivityCreateSetTheme(this)
+
         setContentView(R.layout.activity_main)
 
         lyConstraint.setOnClickListener {
@@ -47,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                     else -> MediaPlayer.create(this@MainActivity, R.raw.flabbyburd)
                 }
                 mediaPlayer?.start()
-            }else {
+            } else {
                 counter += 1
                 textViewCounter.text = "$counter"
             }
@@ -62,12 +69,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
-            R.id.setReset -> { resetCounter() }
-            R.id.setFinish -> { showSetCounter() }
-            R.id.setTone -> { showSetTone() }
-            R.id.setTheme -> { showSetTheme() }
-            R.id.about -> { toAboutActivity() }
+        when (item?.itemId) {
+            R.id.setReset -> {
+                resetCounter()
+            }
+            R.id.setFinish -> {
+                showSetCounter()
+            }
+            R.id.setTone -> {
+                showSetTone()
+            }
+            R.id.setTheme -> {
+                showSetTheme()
+            }
+            R.id.about -> {
+                toAboutActivity()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -87,9 +104,9 @@ class MainActivity : AppCompatActivity() {
         val textView = d.findViewById<TextView>(R.id.tvBatasCounter)
         val np = d.findViewById(R.id.numbPicker) as NumberPicker
         val buttonSet: Button = d.findViewById(R.id.buttonSet)
-        if (counterEnd==null){
+        if (counterEnd == null) {
             textView.text = "${resources.getString(R.string.batas_counter_terakhir)} belum ada"
-        }else {
+        } else {
             textView.text = "${resources.getString(R.string.batas_counter_terakhir)} $counterEnd"
         }
         np.maxValue = 1000000
@@ -104,10 +121,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private var toneName: String? = null
-
     private fun showSetTone() {
-        val builder : AlertDialog.Builder = AlertDialog.Builder(this@MainActivity)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this@MainActivity)
         builder.setTitle("Pilih Nada Finish")
         builder.setCancelable(false)
 
@@ -128,14 +143,37 @@ class MainActivity : AppCompatActivity() {
         builder.setAdapter(arrayAdapter) { _, i ->
             toneName = arrayAdapter.getItem(i)
             tone = arrayAdapter.getItemId(i).toInt()
-            Toast.makeText(this@MainActivity, toneName, Toast.LENGTH_SHORT).show()
+            boast.makeText(this@MainActivity, toneName.toString(), Toast.LENGTH_SHORT).show()
             arrayAdapter.setNotifyOnChange(true)
         }
         builder.show()
     }
 
-    private fun showSetTheme() {
 
+    private fun showSetTheme() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this@MainActivity)
+        builder.setTitle("Pilih Tema")
+        builder.setCancelable(false)
+
+        val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(this@MainActivity, android.R.layout.simple_selectable_list_item)
+        arrayAdapter.add("Black Dark Theme")
+        arrayAdapter.add("Green Dark Theme")
+        arrayAdapter.add("Yellow Dark Theme")
+
+        builder.setNegativeButton("Cancel") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+
+        builder.setAdapter(arrayAdapter) { _, i ->
+            themeName = arrayAdapter.getItem(i)
+            themeSelected = arrayAdapter.getItemId(i).toInt()
+            boast.makeText(this@MainActivity, "Tema "+themeName.toString()+" diterapkan.", Toast.LENGTH_SHORT).show()
+            arrayAdapter.setNotifyOnChange(true)
+            if (ThemeApplication.currentPosition!=themeSelected) {
+                ThemeSwitcher.changeToTheme(this@MainActivity, themeSelected)
+            }
+        }
+        builder.show()
     }
 
     private fun toAboutActivity() {
