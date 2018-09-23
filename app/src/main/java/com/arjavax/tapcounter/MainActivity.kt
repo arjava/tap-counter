@@ -157,8 +157,11 @@ class MainActivity : AppCompatActivity() {
 
         val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(this@MainActivity, android.R.layout.simple_selectable_list_item)
         arrayAdapter.add("Black Dark Theme")
+        arrayAdapter.add("Red Dark Theme")
+        arrayAdapter.add("Blue Dark Theme")
         arrayAdapter.add("Green Dark Theme")
         arrayAdapter.add("Yellow Dark Theme")
+        arrayAdapter.add("Light Theme")
 
         builder.setNegativeButton("Cancel") { dialogInterface, _ ->
             dialogInterface.dismiss()
