@@ -8,4 +8,8 @@
     <string name="atur_counter_finish">Atur Counter Finish</string>
     <string name="reset_counter">Reset Counter</string>
     <string name="batas_counter_terakhir">Batas Counter Terakhir :</string>
+    <string name="sound_effect_by">Sound Effect by :</string>
+    <string name = "myBlog"><a href="https://arjavax.blogspot.com"> arjavax </a></string>
+    <string name="library">Library :</string>
+    <string name="version">Version </string>
 </resources>

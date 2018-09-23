@@ -2,6 +2,7 @@ package com.arjavax.tapcounter
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.media.MediaPlayer
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -180,7 +181,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun toAboutActivity() {
-
+        startActivity(Intent(this@MainActivity, AboutActivity::class.java))
     }
 
 }
