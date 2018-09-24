@@ -6,9 +6,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_tap_counter_dark"
+        android:icon="@mipmap/icon_tap_counter"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_tap_counter_dark_round"
+        android:roundIcon="@mipmap/icon_tap_counter_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
         <activity android:name=".MainActivity"
