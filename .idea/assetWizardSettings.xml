@@ -35,10 +35,10 @@
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="4b4b4b" />
-                                      <entry key="backgroundLayerName" value="ic_tcounter_background" />
-                                      <entry key="foregroundImage" value="$USER_HOME$/Documents/output inkscape/logo_tap_counter.png" />
-                                      <entry key="foregroundLayerName" value="ic_tcounter_foreground" />
-                                      <entry key="outputName" value="ic_tap_counter_dark" />
+                                      <entry key="backgroundLayerName" value="icon_tcounter_background" />
+                                      <entry key="foregroundImage" value="$USER_HOME$/Documents/Assets/Tap Counter/logo_high.png" />
+                                      <entry key="foregroundLayerName" value="icon_tcounter_foreground" />
+                                      <entry key="outputName" value="icon_tap_counter" />
                                     </map>
                                   </option>
                                 </PersistentState>
